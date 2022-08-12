@@ -18,4 +18,3 @@ def browser(request):
     print("\nquit browser..")
     time.sleep(2)
     browser.quit()
-
