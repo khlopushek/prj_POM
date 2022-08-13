@@ -14,18 +14,17 @@ from selenium.webdriver.support import expected_conditions as EC
 from .locators import BasePageLocators
 from .locators import ProductPageLocators
 from .locators import BasketPageLocators
-from .locators import LoginPageLocators
 from .base_page import BasePage
 
-class LoginPage(BasePage):
+class BasketPage(BasePage):
 
-    def register_new_user(self, email, password):
-        self.reg_email = self.browser.find_element(*LoginPageLocators.REG_EMAIL)
-        self.reg_email.send_keys(email)
-        self.reg_password = self.browser.find_element(*LoginPageLocators.REG_PASSWORD)
-        self.reg_password.send_keys(password)
-        self.confirm_password = self.browser.find_element(*LoginPageLocators.REG_CONFIRM)
-        self.confirm_password.send_keys(password)
-        self.register_button = self.browser.find_element(*LoginPageLocators.REGISTER_BUTTON)
-        self.register_button.click()
-        
+    def should_be_empty_basket(self):
+        self.message_actual = self.browser.find_element(*BasketPageLocators.EMPTY_MESSAGE)
+        self.msg_actual = self.message_actual.text
+        assert "Your basket is empty" in self.msg_actual, "Basket is not empty"
+
+    def should_be_no_products(self):
+        assert self.is_not_element_present(*BasketPageLocators.PRODUCT), \
+            "Product is presented, but should not be, basket is not empty"
+
+       
